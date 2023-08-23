@@ -16,14 +16,22 @@ public class Main {
             opcao = Integer.valueOf(scanner.nextLine());
 
             if (opcao == 1){
-                System.out.print("Digite o CEP: ");
-                String read = scanner.nextLine();
-                read = read.replaceAll("[^0-9]", "");
+                try {
+                    System.out.print("Digite o CEP: ");
+                    String read = scanner.nextLine();
+                    read = read.replaceAll("[^0-9]", "");
 
-                ConsultaCep buscaCep = new ConsultaCep();
-                String gson = buscaCep.buscaCep(read);
+                    ConsultaCep buscaCep = new ConsultaCep();
+                    Endereco gson = buscaCep.buscaCep(read);
+                    GeradorDeArquivos gerador = new GeradorDeArquivos();
+                    gerador.salvaJson(gson);
 
-                System.out.println(gson);
+                    System.out.println("Cidade: " + gson.localidade() + " - " + gson.uf());
+                    System.out.println("CEP completo: " + gson);
+                }catch (RuntimeException e){
+                    System.out.println(e.getMessage());
+                }
+
             } else if (opcao == 0) {
                 System.out.println("Busca finalizada!");
             } else {
